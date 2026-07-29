@@ -1,0 +1,181 @@
+SEGURANCA DIGITAL - ANOTACOES
+=============================
+
+- Tudo pode ser visivel estando na mesma rede
+- Falhas de seguranca sao passiveis a invasoes
+- Site: have i been pwned (checa se seu e-mail vazou)
+
+
+1. REDE
+-------
+Caminho dos dados: dispositivo > roteador > provedor > servidor.
+Todo ponto do caminho carrega a mensagem. Sem protecao, todo ponto le.
+
+TCP/IP = sistema postal (fatia em pacotes e roteia)
+DNS    = lista telefonica (nome do site -> IP)
+TLS    = o lacre do envelope, o "S" do HTTPS
+
+HTTP  = cartao-postal, todos leem
+HTTPS = envelope lacrado
+Nunca digitar senha ou cartao em site so com http://
+
+
+2. HIGIENE BASICA
+-----------------
+SENHA
+- Senha e chave de casa: uma por porta
+- Reuso e o maior risco. Vaza um site, cai tudo
+- Longa > complicada. Tamanho importa mais que simbolos
+- Usar gerenciador de senhas
+
+2FA
+- Segunda tranca. Senha roubada nao basta
+- App autenticador > SMS (SMS cai com clonagem de chip)
+- E-MAIL E A CHAVE-MESTRA: quem tem o e-mail usa "esqueci a senha" no resto
+
+PHISHING
+- Ataque mais comum. Psicologico, nao tecnico
+- Formula: PRESSA + MEDO
+- Nunca clicar no link da mensagem. Abrir o app por conta propria
+
+WI-FI PUBLICO
+- Rede aberta = gente escutando. Evitar banco
+- Dados moveis sao mais seguros
+
+ATUALIZACAO
+- Fecha buracos ja conhecidos publicamente
+- Adiar = janela aberta de proposito
+
+
+3. HACKERS
+----------
+Hacker (origem) = quem entende o sistema a ponto de usa-lo fora do previsto.
+Criminoso = cibercriminoso.
+
+CHAPEUS
+Branco - autorizado, acha falha e reporta. Profissao (pentest, bug bounty)
+Preto  - rouba, extorque, vende. Hoje e crime organizado
+Cinza  - invade sem permissao mas sem dano. Ilegal mesmo assim
+
+ETAPAS DE UM ATAQUE
+1 Espionagem  - estuda o alvo
+2 Invasao     - acha a fresta
+3 Permanencia - fica escondido semanas/meses, mapeando
+4 Ataque      - rouba ou trava
+* A maioria morre na etapa 2. Senha unica + 2FA + atualizacao barram quase tudo
+* Etapa 3 explica por que empresas descobrem tarde demais
+
+ELO MAIS FRACO = GENTE
+Criptografia forte nao se quebra por forca bruta (bilhoes de anos).
+Entao ataca-se a pessoa que tem a chave = ENGENHARIA SOCIAL.
+Ex: ligar fingindo ser do TI, e-mail do "chefe", pendrive largado no chao.
+Mitnick: mais facil enganar alguem que arrancar a senha do sistema.
+
+ATAQUES MAIS COMUNS
+Phishing / Ransomware (trava e cobra resgate) / Vazamento de credencial /
+Malware (instalado pelo proprio usuario: crack, APK modificado)
+
+
+4. SUBCULTURAS (sao camadas de epoca, nao categorias paralelas)
+---------------------------------------------------------------
+1960-70   PHREAKERS - enganavam a rede telefonica
+  Sinal de controle viajava no mesmo canal da voz. Frequencia 2600 Hz.
+  Apito do cereal Cap'n Crunch dava o tom exato. Depois vieram as blue boxes.
+  Wozniak e Jobs vendiam blue boxes antes da Apple.
+  Morreu quando separaram os canais. Revista 2600 leva o nome da frequencia.
+
+Anos 80   CRACKERS - dois sentidos
+  (a) hacker malicioso. Termo criado pela comunidade p/ se separar da imprensa
+  (b) quem quebra protecao de software (cena warez, o "crack" do programa pirata)
+  * Crack e a via de infeccao n.1 no PC domestico. Precisa desligar protecao
+    p/ funcionar, entao o malware se esconde ali. O usuario autoriza a entrada
+
+1995-2005 DEFACERS - pichacao digital
+  Troca a pagina inicial do site. Ego, nao lucro. Havia placar publico (Zone-H).
+  Brasil dominou os rankings mundiais.
+  Decaiu porque o crime migrou p/ onde tem dinheiro.
+
+Hoje      CRIME ORGANIZADO - ransomware como modelo de negocio
+
+OUTROS TERMOS
+Script kiddie / lammer - usa ferramenta pronta sem entender
+Hacktivista            - motivo politico (Anonymous)
+Carder                 - fraude de cartao
+Insider                - ja estava dentro. Mais dificil de detectar
+APT                    - grupo bancado por Estado, paciencia de anos (Stuxnet)
+
+
+5. CASO JIA TAN - XZ UTILS (CVE-2024-3094)
+------------------------------------------
+Ataque social, nao tecnico. Durou 3 anos.
+
+ALVO: XZ Utils, biblioteca de compressao sem glamour, presente em quase todo
+Linux e carregada indiretamente pelo sshd (acesso remoto).
+FRAGILIDADE: 1 unico mantenedor (Lasse Collin), de graca, doente, exausto.
+
+LINHA DO TEMPO
+2021 - surge "Jia Tan", sem rastro anterior. Contribuicoes uteis e educadas
+     - contas falsas (sock puppets) pressionam Collin publicamente:
+       "projeto abandonado", "aceite outro mantenedor"
+2023 - Collin cede e da acesso de mantenedor
+2022/24 - +450 commits LEGITIMOS. Cuidou bem do projeto p/ nao levantar suspeita
+2024 - backdoor entra nas versoes 5.6.0 e 5.6.1
+
+COMO ESCONDEU
+- Nao estava no GitHub, so no .tar.gz de release (que as distros compilam)
+- Pecas dentro de arquivos binarios de "teste" propositalmente corrompidos
+  (ninguem revisa blob binario)
+- Script de build montava tudo na compilacao
+- Resultado: acesso sem senha p/ quem tivesse a chave privada. Exclusivo dele
+- CVSS 10.0 (nota maxima)
+
+DESCOBERTA
+Andres Freund (Microsoft) fazia benchmark de PostgreSQL, notou 500ms a mais de
+CPU no login SSH. Foi investigar. Divulgou em 29/03/2024.
+Faltavam SEMANAS p/ entrar no Debian e Ubuntu estaveis.
+
+AUTORIA
+Desconhecida. Identidade ficticia, pistas plantadas (fuso inconsistente, VPN).
+Especula-se Estado por tras (sofisticacao + paciencia). Sem prova publica.
+
+LICOES
+- Nenhuma criptografia foi quebrada. A falha era um humano sozinho e sem apoio
+- A descoberta tambem foi humana: curiosidade com 500ms, nao ferramenta
+- Paradoxo do open source: so funcionou porque e aberto, mas so foi descoberto
+  porque e aberto
+
+
+6. PENTEST
+----------
+Invasao autorizada. Tecnicas reais, com contrato.
+
+ESCOPO define IPs, sistemas, horarios e o que nao pode tocar.
+Sair do escopo ja e crime, mesmo sem ma intencao.
+No Brasil: Lei 12.737 (Carolina Dieckmann) e Marco Civil.
+A diferenca entre pentester e criminoso e um contrato assinado.
+
+FASES
+1 Reconhecimento (sem tocar no alvo) / 2 Varredura / 3 Exploracao /
+4 Pos-exploracao / 5 Relatorio
+
+* O PRODUTO FINAL E O RELATORIO, nao a invasao. Escreve-se mais do que se invade
+* Precisa ter parte tecnica (p/ equipe corrigir) e resumo executivo (p/ diretoria)
+
+TIPOS
+Black box - nao sabe nada, simula atacante externo
+White box - tem codigo e credenciais, busca profundidade
+Gray box  - simula funcionario ou cliente comprometido
+Red Team  - operacao furtiva de longo prazo. Testa o TIME DE DEFESA, nao o sistema
+
+CARREIRA
+Alta demanda no Brasil, impulsionada pela LGPD.
+Areas: pentest, SOC, forense digital, resposta a incidentes.
+Pratica legal: TryHackMe, Hack The Box. Certificacao de referencia: OSCP.
+BASE EM REDES E LINUX VEM ANTES DE FERRAMENTA.
+So apertar botao no Metasploit = script kiddie.
+
+
+IDEIA CENTRAL
+=============
+Nao se quebra o algoritmo. Ataca-se quem tem a chave.
+O elo mais fraco e gente com pressa, com medo, cansada ou sozinha.
